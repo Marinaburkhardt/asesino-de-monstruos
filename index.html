@@ -15,6 +15,7 @@
                 <h1 class="text-center">TU</h1>
                 <div class="curarthbar">
                     <div class="curarthbar text-center" style="background-color: goldenrod; margin: 0; color: white;">
+                        <p>{{vidaPersona}}</p>
                     </div>
                 </div>
             </div>
@@ -23,22 +24,23 @@
                 <div class="curarthbar">
                     <div class="curarthbar text-center"
                         style="background-color: rgb(0, 81, 128); margin: 0; color: white;">
+                        <p>{{vidaMonstruo}}</p>
              </div>
                 </div>
             </div>
         </section>
         <section class="row controls">
-            <div class="small-12 columns">
-                <button id="start-game">
+            <div class="small-12 columns" v-on:click = "isHidden=false">
+                <button id="start-game" v-if="isHidden">
                     EMPEZAR JUEGO NUEVO</button>
             </div>
         </section>
-        <section class="row controls" v-else>
-            <div class="small-12 columns">
-                <button id="atacar" >ATACAR</button>
-                <button id="ataque-especial" >ATAQUE ESPECIAL</button>
-                <button id="curar" >CURAR</button>
-                <button id="rendirse" >RENDIRSE</button>
+        <section class="row controls">
+            <div class="small-12 columns" v-if="!isHidden">
+                <button v-on:click = "atacar()" id="atacar" >ATACAR</button>
+                <button v-on:click = "atacar_especial()" id="ataque-especial" >ATAQUE ESPECIAL</button>
+                <button v-on:click = "curar()" id="curar" >CURAR</button>
+                <button v-on:click = "rendirse()" id="rendirse" >RENDIRSE</button>
             </div>
         </section>
         <section class="row log">
@@ -57,3 +59,46 @@
 </body>
 
 </html>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            vidaMonstruo:100,
+            vidaPersona:100, 
+            isHidden:true
+        },
+
+        methods: {
+            actualizar_vida(vida_a_restar){
+                return `${personaje.vida} - vida_a_restar`
+            },
+            atacar(){
+                let ataque_monstruo = Math.floor(Math.random() * 10 + 1)
+                let ataque_persona = Math.floor(Math.random() * 10 + 1)
+                this.vidaMonstruo-=ataque_monstruo
+                this.vidaPersona-=ataque_persona
+            },
+            atacar_especial(){
+                let ataque_monstruo = Math.floor(Math.random() * 10 + 1)
+                let ataque_persona = Math.floor(Math.random() * 25 + 1)
+                this.vidaMonstruo-=ataque_monstruo
+                this.vidaPersona-=ataque_persona
+            },
+            curar(){
+                let ataque_monstruo = Math.floor(Math.random() * 10 + 1)
+                let curacion = Math.floor(Math.random() * 10 + 1)
+                this.vidaPersona-=ataque_monstruo
+                this.vidaPersona+=curacion
+
+            },
+            rendirse(){
+                this.vidaMonstruo=100
+                this.vidaPersona=100
+                alert('Buuuhhh te rendiste')
+                this.isHidden=true
+            },
+
+        }
+    });
+</script>
