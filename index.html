@@ -13,7 +13,7 @@
         <section class="row">
             <div class="small-6 columns">
                 <h1 class="text-center">TU</h1>
-                <div class="curarthbar">
+                <div class="curarthbar" v-bind:style="`width: ${vidaPersona}%`">
                     <div class="curarthbar text-center" style="background-color: goldenrod; margin: 0; color: white;">
                         <p>{{vidaPersona}}</p>
                     </div>
@@ -21,7 +21,7 @@
             </div>
             <div class="small-6 columns">
                 <h1 class="text-center">MONSTRUO</h1>
-                <div class="curarthbar">
+                <div class="curarthbar" v-bind:style="`width: ${vidaMonstruo}%`">
                     <div class="curarthbar text-center"
                         style="background-color: rgb(0, 81, 128); margin: 0; color: white;">
                         <p>{{vidaMonstruo}}</p>
@@ -35,15 +35,15 @@
                     EMPEZAR JUEGO NUEVO</button>
             </div>
         </section>
-        <section class="row controls">
-            <div class="small-12 columns" v-if="!isHidden">
+        <section class="row controls" v-if="!isHidden">
+            <div class="small-12 columns">
                 <button v-on:click = "atacar()" id="atacar" >ATACAR</button>
                 <button v-on:click = "atacar_especial()" id="ataque-especial" >ATAQUE ESPECIAL</button>
                 <button v-on:click = "curar()" id="curar" >CURAR</button>
                 <button v-on:click = "rendirse()" id="rendirse" >RENDIRSE</button>
             </div>
         </section>
-        <section class="row log">
+        <section class="row log" v-if="!isHidden">
             <div class="small-12 columns">
 
                 <ul v-for="log in logs">
@@ -77,6 +77,7 @@
                 this.vidaMonstruo-=ataque_monstruo
                 this.vidaPersona-=ataque_persona
                 this.loggear(ataque_monstruo,ataque_persona)
+                this.chequeoSiSiguenVivos()
             },
             atacar_especial(){
                 let ataque_monstruo = Math.floor(Math.random() * 10 + 1)
@@ -84,6 +85,7 @@
                 this.vidaMonstruo-=ataque_monstruo
                 this.vidaPersona-=ataque_persona
                 this.loggear(ataque_monstruo,ataque_persona)
+                this.chequeoSiSiguenVivos()
             },
             curar(){
                 let ataque_monstruo = Math.floor(Math.random() * 10 + 1)
@@ -91,6 +93,7 @@
                 this.vidaPersona-=ataque_monstruo
                 this.vidaPersona+=curacion
                 this.loggearCuracion(ataque_monstruo,curacion)
+                this.chequeoSiSiguenVivos()
             },
             rendirse(){
                 this.vidaMonstruo=100
@@ -98,6 +101,21 @@
                 alert('Buuuhhh te rendiste')
                 this.isHidden=true
                 this.logs = []
+            },
+            chequeoSiSiguenVivos(){
+                if (this.vidaMonstruo<1){
+                    alert('Ganaste!')
+                    this.isHidden=true
+                    this.logs = []
+                    this.vidaMonstruo=100
+                    this.vidaPersona=100
+                } else if (this.vidaPersona<1){
+                    alert('Perdiste!')
+                    this.isHidden=true
+                    this.logs = []
+                    this.vidaMonstruo=100
+                    this.vidaPersona=100
+                }
             },
             loggear(ataqueMonstruo,ataquePersona){
                 mensajeMonstruo= 'El monstruo ataca y resta ' + ataqueMonstruo + ' a la persona'
@@ -108,8 +126,6 @@
                 mensaje = 'El monstruo ataca y resta ' + ataqueMonstruo + ' a la persona, pero la persona se cura con ' + curacionPersona
                 this.logs.unshift(mensaje)
             }
-
-
         }
     });
 </script>
