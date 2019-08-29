@@ -46,9 +46,9 @@
         <section class="row log">
             <div class="small-12 columns">
 
-                <ul>
+                <ul v-for="log in logs">
                     <li>
-                        
+                        {{log}}
                     </li>
                 </ul>
 
@@ -66,38 +66,49 @@
         data: {
             vidaMonstruo:100,
             vidaPersona:100, 
-            isHidden:true
+            isHidden:true,
+            logs: []
         },
 
         methods: {
-            actualizar_vida(vida_a_restar){
-                return `${personaje.vida} - vida_a_restar`
-            },
             atacar(){
                 let ataque_monstruo = Math.floor(Math.random() * 10 + 1)
                 let ataque_persona = Math.floor(Math.random() * 10 + 1)
                 this.vidaMonstruo-=ataque_monstruo
                 this.vidaPersona-=ataque_persona
+                this.loggear(ataque_monstruo,ataque_persona)
             },
             atacar_especial(){
                 let ataque_monstruo = Math.floor(Math.random() * 10 + 1)
                 let ataque_persona = Math.floor(Math.random() * 25 + 1)
                 this.vidaMonstruo-=ataque_monstruo
                 this.vidaPersona-=ataque_persona
+                this.loggear(ataque_monstruo,ataque_persona)
             },
             curar(){
                 let ataque_monstruo = Math.floor(Math.random() * 10 + 1)
                 let curacion = Math.floor(Math.random() * 10 + 1)
                 this.vidaPersona-=ataque_monstruo
                 this.vidaPersona+=curacion
-
+                this.loggearCuracion(ataque_monstruo,curacion)
             },
             rendirse(){
                 this.vidaMonstruo=100
                 this.vidaPersona=100
                 alert('Buuuhhh te rendiste')
                 this.isHidden=true
+                this.logs = []
             },
+            loggear(ataqueMonstruo,ataquePersona){
+                mensajeMonstruo= 'El monstruo ataca y resta ' + ataqueMonstruo + ' a la persona'
+                mensajePersona = 'La persona ataca y resta ' + ataquePersona + ' al monstruo'   
+                this.logs.unshift(mensajeMonstruo, mensajePersona)
+            },
+            loggearCuracion(ataqueMonstruo,curacionPersona){
+                mensaje = 'El monstruo ataca y resta ' + ataqueMonstruo + ' a la persona, pero la persona se cura con ' + curacionPersona
+                this.logs.unshift(mensaje)
+            }
+
 
         }
     });
