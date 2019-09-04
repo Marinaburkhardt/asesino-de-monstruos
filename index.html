@@ -13,17 +13,19 @@
         <section class="row">
             <div class="small-6 columns">
                 <h1 class="text-center">TU</h1>
-                <div class="curarthbar" v-bind:style="`width: ${vidaPersona}%`">
-                    <div class="curarthbar text-center" style="background-color: goldenrod; margin: 0; color: white;">
+                <div class="curarthbar">
+                    <div class="curarthbar text-center" style="background-color: goldenrod; margin: 0; color: white;" 
+                        v-bind:style="`width: ${vidaPersona}%`">
                         <p>{{vidaPersona}}</p>
                     </div>
                 </div>
             </div>
             <div class="small-6 columns">
                 <h1 class="text-center">MONSTRUO</h1>
-                <div class="curarthbar" v-bind:style="`width: ${vidaMonstruo}%`">
+                <div class="curarthbar">
                     <div class="curarthbar text-center"
-                        style="background-color: rgb(0, 81, 128); margin: 0; color: white;">
+                        style="background-color: rgb(0, 81, 128); margin: 0; color: white;" 
+                        v-bind:style="`width: ${vidaMonstruo}%`">
                         <p>{{vidaMonstruo}}</p>
              </div>
                 </div>
